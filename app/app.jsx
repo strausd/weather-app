@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+// import WeatherApp from './components/WeatherApp.jsx';
+import WeatherApp from 'WeatherApp.jsx';
+
 ReactDOM.render(
-    <h1>Hello, world! REACT IS WORKING!!!!!</h1>,
-    document.getElementById('root')
+    <WeatherApp/>,
+    document.getElementById('weather-app')
 );
