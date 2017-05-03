@@ -1,0 +1,43 @@
+body {
+    font-size: 28px;
+}
+.container {
+    text-align: center;
+}
+
+.container h1 {
+    margin-top: 1em;
+    font-size: 150%;
+}
+
+/*-----------------------------------------------------*/
+/* WeatherSearch */
+
+.weather-search {
+    padding: 1em 0;
+}
+
+.search-input.ui.input {
+    display: inline-flex;
+    font-size: .75em;
+    width: 75%;
+}
+
+.search-button-container {
+    display: inline-flex;
+    width: 25%
+}
+
+.ui.button.search-button {
+    font-size: .75em;
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+/*-----------------------------------------------------*/
