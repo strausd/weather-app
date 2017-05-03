@@ -1,5 +1,15 @@
+/*
+
+cyan: #16d0a5
+dark cyan: #24b593
+near black: #313131
+gray: #636262
+light gray: #c1c1c1
+
+*/
+
 body {
-    font-size: 28px;
+    font-size: 20px;
 }
 .container {
     text-align: center;
@@ -17,27 +27,54 @@ body {
     padding: 1em 0;
 }
 
-.search-input.ui.input {
-    display: inline-flex;
-    font-size: .75em;
-    width: 75%;
+.search-input {
+    display:inline-flex;
+    height: 100%;
+    width: 67%;
+}
+
+.text-input::placeholder {
+    color: #c1c1c1;
+    transition: all .2s;
+}
+.text-input:focus::placeholder {
+    color: #636262;
+}
+
+.text-input {
+    border: 1px solid #c1c1c1;
+    border-radius: 5px;
+    padding: .4em 1em;
+    color: #636262;
+    transition: all .2s;
+    width: 100%;
+}
+
+.text-input:focus {
+    box-shadow: none;
+    outline: none;
+    border: 1px solid #16d0a5;
+    color: #313131;
 }
 
 .search-button-container {
     display: inline-flex;
-    width: 25%
+    height: 100%;
+    width: 33%;
 }
 
-.ui.button.search-button {
-    font-size: .75em;
+.search-button {
+    background-color: #16d0a5;
+    border: 1px solid #16d0a5;
+    border-radius: 5px;
+    color: white;
+    padding: .3em 1em;
     width: 100%;
+    transition: all .2s;
 }
 
-
-
-
-
-
-
+.search-button:hover {
+    background-color: #24b593;
+}
 
 /*-----------------------------------------------------*/

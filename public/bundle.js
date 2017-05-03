@@ -22143,8 +22143,8 @@ var WeatherSearch = exports.WeatherSearch = function (_React$Component) {
                     { onSubmit: this.onSubmit },
                     _react2.default.createElement(
                         'div',
-                        { className: 'ui input search-input' },
-                        _react2.default.createElement('input', { type: 'text', ref: function ref(searchText) {
+                        { className: 'search-input' },
+                        _react2.default.createElement('input', { className: 'text-input', type: 'text', ref: function ref(searchText) {
                                 return _this2.searchText = searchText;
                             }, placeholder: 'Enter City', autoFocus: true })
                     ),
@@ -22153,12 +22153,24 @@ var WeatherSearch = exports.WeatherSearch = function (_React$Component) {
                         { className: 'search-button-container' },
                         _react2.default.createElement(
                             'button',
-                            { className: 'ui primary button search-button' },
+                            { className: 'search-button' },
                             'Search'
                         )
                     )
                 )
             );
+            // return (
+            //     <div className="weather-search">
+            //         <form onSubmit={this.onSubmit}>
+            //             <div className="ui input search-input">
+            //                 <input type="text" ref={searchText => this.searchText = searchText} placeholder="Enter City" autoFocus/>
+            //             </div>
+            //             <div className="search-button-container">
+            //                 <button className="ui primary button search-button">Search</button>
+            //             </div>
+            //         </form>
+            //     </div>
+            // );
         }
     }]);
 
