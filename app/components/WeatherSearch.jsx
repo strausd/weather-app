@@ -28,9 +28,6 @@ export class WeatherSearch extends React.Component {
                         <button className="search-button">Search</button>
                     </div>
                 </form>
-                <div className="location-button-container">
-                    <button className="location-button" onClick={this.onLocationClick}>Use my location</button>
-                </div>
             </div>
         );
         // return (
