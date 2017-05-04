@@ -23671,7 +23671,7 @@ var WeatherInfo = exports.WeatherInfo = function (_React$Component) {
                         "p",
                         null,
                         description,
-                        " with a current temperatur of ",
+                        " with a current temperature of ",
                         Math.round(temp),
                         "\xB0F"
                     )

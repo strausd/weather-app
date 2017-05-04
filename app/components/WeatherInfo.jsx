@@ -25,7 +25,7 @@ export class WeatherInfo extends React.Component {
             return (
                 <div className="info-box">
                     <h2>{location}</h2>
-                    <p>{description} with a current temperatur of {Math.round(temp)}&#176;F</p>
+                    <p>{description} with a current temperature of {Math.round(temp)}&#176;F</p>
                 </div>
             )
         } else if(status !== 200) {
