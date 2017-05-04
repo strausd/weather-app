@@ -1,7 +1,7 @@
 /*
 
 cyan: #16d0a5
-dark cyan: #24b593
+dark cyan: #095141
 near black: #313131
 gray: #2f2f2f
 light gray: #c1c1c1
@@ -65,7 +65,6 @@ input {
 
 .search-button-container {
     display: inline-flex;
-    height: 100%;
     width: 33%;
 }
 
@@ -74,13 +73,41 @@ input {
     border: 1px solid #16d0a5;
     border-radius: 5px;
     color: white;
-    padding: .3em 1em;
+    padding: .3em .6em;
     width: 100%;
     transition: all .2s;
 }
 
 .search-button:hover {
-    background-color: #24b593;
+    background-color: #095141;
+}
+
+.location-button-container {
+    display: flex;
+    justify-content: center;
+    margin: 1em auto 0 auto;
+    width: 100px;
+    height: 100px;
+    font-size: 80%;
+    line-height: 120%;
+}
+
+.location-button {
+    background-color: #2f2f2f;
+    border: 1px solid #16d0a5;
+    border-radius: 50%;
+    color: white;
+    padding: .3em .6em;
+    width: 100%;
+    transition: all .2s;
+}
+
+.location-button:hover {
+    background-color: #095141;
+}
+
+.location-button:focus {
+    outline: none;
 }
 
 /*-----------------------------------------------------*/

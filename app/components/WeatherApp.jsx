@@ -9,6 +9,9 @@ export class WeatherApp extends React.Component {
         super(props);
         this.state = {
             isLoading: false,
+            searchText: undefined,
+            lat: undefined,
+            long: undefined,
             location: undefined,
             temp: undefined,
             description: undefined,
@@ -16,13 +19,23 @@ export class WeatherApp extends React.Component {
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.getLocation = this.getLocation.bind(this);
+        this.getCity = this.getCity.bind(this);
+        this.handleLocationClick = this.handleLocationClick.bind(this);
     }
     getLocation (searchText) {
         this.setState({
-            isLoading: true
-        })
+            isLoading: true,
+            searchText
+        });
         var locationText = encodeURIComponent(searchText);
         var geolocationUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${locationText}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+        return axios.get(geolocationUrl);
+    }
+    getCity (lat, long) {
+        this.setState({
+            isLoading: true,
+        });
+        var geolocationUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
         return axios.get(geolocationUrl);
     }
     getWeather (lat, long) {
@@ -40,15 +53,51 @@ export class WeatherApp extends React.Component {
                     location: locRes.data.results[0].formatted_address,
                     temp: weatherRes.data.main.temp,
                     description: weatherRes.data.weather[0].description,
-                    status: 200
+                    status: 200,
+                    lat,
+                    long
                 });
             });
         }).catch((err) => {
             this.setState({
                 isLoading: false,
-                status: 400
+                status: 404
             });
         });
+    }
+    handleLocationClick () {
+        if('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                var lat = position.coords.latitude;
+                var long = position.coords.longitude;
+                this.getCity(lat, long).then((locRes) => {
+                    this.getWeather(lat, long).then((weatherRes) => {
+                        this.setState({
+                            isLoading: false,
+                            location: locRes.data.results[2].formatted_address,
+                            temp: weatherRes.data.main.temp,
+                            description: weatherRes.data.weather[0].description,
+                            status: 200,
+                            lat,
+                            long
+                        });
+                    });
+                }).catch((err) => {
+                    this.setState({
+                        isLoading: false,
+                        status: 404
+                    });
+                });
+
+            }, (err) => {
+                this.setState({
+                    isLoading: false,
+                    status: 401
+                });
+            });
+        } else {
+            alert('location not available');
+        }
     }
     render () {
         var {isLoading, location, temp, description, status} = this.state;
@@ -57,7 +106,7 @@ export class WeatherApp extends React.Component {
                 <div className="sixteen wide mobile twelve wide tablet nine wide computer column">
                     <div className="container">
                         <h1>Get your weather</h1>
-                        <WeatherSearch onSubmit={this.handleSubmit}/>
+                        <WeatherSearch onSubmit={this.handleSubmit} onLocationClick={this.handleLocationClick}/>
                         <WeatherInfo isLoading={isLoading} location={location} temp={temp} description={description} status={status}/>
                     </div>
                 </div>

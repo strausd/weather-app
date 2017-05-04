@@ -28,6 +28,13 @@ export class WeatherInfo extends React.Component {
                     <p>{description} with a current temperature of {Math.round(temp)}&#176;F</p>
                 </div>
             )
+        } else if(status === 401) {
+            return (
+                <div className="info-box">
+                    <h2>Unable to get weather</h2>
+                    <p>Location blocked</p>
+                </div>
+            )
         } else if(status !== 200) {
             return (
                 <div className="info-box">

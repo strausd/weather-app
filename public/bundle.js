@@ -9512,6 +9512,9 @@ var WeatherApp = exports.WeatherApp = function (_React$Component) {
 
         _this.state = {
             isLoading: false,
+            searchText: undefined,
+            lat: undefined,
+            long: undefined,
             location: undefined,
             temp: undefined,
             description: undefined,
@@ -9519,6 +9522,8 @@ var WeatherApp = exports.WeatherApp = function (_React$Component) {
         };
         _this.handleSubmit = _this.handleSubmit.bind(_this);
         _this.getLocation = _this.getLocation.bind(_this);
+        _this.getCity = _this.getCity.bind(_this);
+        _this.handleLocationClick = _this.handleLocationClick.bind(_this);
         return _this;
     }
 
@@ -9526,10 +9531,20 @@ var WeatherApp = exports.WeatherApp = function (_React$Component) {
         key: 'getLocation',
         value: function getLocation(searchText) {
             this.setState({
-                isLoading: true
+                isLoading: true,
+                searchText: searchText
             });
             var locationText = encodeURIComponent(searchText);
             var geolocationUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + locationText + '&key=' + "AIzaSyCysHuQFX9Y0lmQdTjpaKWRRBEwy2afHXs";
+            return _axios2.default.get(geolocationUrl);
+        }
+    }, {
+        key: 'getCity',
+        value: function getCity(lat, long) {
+            this.setState({
+                isLoading: true
+            });
+            var geolocationUrl = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + long + '&key=' + "AIzaSyCysHuQFX9Y0lmQdTjpaKWRRBEwy2afHXs";
             return _axios2.default.get(geolocationUrl);
         }
     }, {
@@ -9552,15 +9567,54 @@ var WeatherApp = exports.WeatherApp = function (_React$Component) {
                         location: locRes.data.results[0].formatted_address,
                         temp: weatherRes.data.main.temp,
                         description: weatherRes.data.weather[0].description,
-                        status: 200
+                        status: 200,
+                        lat: lat,
+                        long: long
                     });
                 });
             }).catch(function (err) {
                 _this2.setState({
                     isLoading: false,
-                    status: 400
+                    status: 404
                 });
             });
+        }
+    }, {
+        key: 'handleLocationClick',
+        value: function handleLocationClick() {
+            var _this3 = this;
+
+            if ('geolocation' in navigator) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var lat = position.coords.latitude;
+                    var long = position.coords.longitude;
+                    _this3.getCity(lat, long).then(function (locRes) {
+                        _this3.getWeather(lat, long).then(function (weatherRes) {
+                            _this3.setState({
+                                isLoading: false,
+                                location: locRes.data.results[2].formatted_address,
+                                temp: weatherRes.data.main.temp,
+                                description: weatherRes.data.weather[0].description,
+                                status: 200,
+                                lat: lat,
+                                long: long
+                            });
+                        });
+                    }).catch(function (err) {
+                        _this3.setState({
+                            isLoading: false,
+                            status: 404
+                        });
+                    });
+                }, function (err) {
+                    _this3.setState({
+                        isLoading: false,
+                        status: 401
+                    });
+                });
+            } else {
+                alert('location not available');
+            }
         }
     }, {
         key: 'render',
@@ -9586,7 +9640,7 @@ var WeatherApp = exports.WeatherApp = function (_React$Component) {
                             null,
                             'Get your weather'
                         ),
-                        _react2.default.createElement(_WeatherSearch2.default, { onSubmit: this.handleSubmit }),
+                        _react2.default.createElement(_WeatherSearch2.default, { onSubmit: this.handleSubmit, onLocationClick: this.handleLocationClick }),
                         _react2.default.createElement(_WeatherInfo2.default, { isLoading: isLoading, location: location, temp: temp, description: description, status: status })
                     )
                 )
@@ -23676,6 +23730,21 @@ var WeatherInfo = exports.WeatherInfo = function (_React$Component) {
                         "\xB0F"
                     )
                 );
+            } else if (status === 401) {
+                return _react2.default.createElement(
+                    "div",
+                    { className: "info-box" },
+                    _react2.default.createElement(
+                        "h2",
+                        null,
+                        "Unable to get weather"
+                    ),
+                    _react2.default.createElement(
+                        "p",
+                        null,
+                        "Location blocked"
+                    )
+                );
             } else if (status !== 200) {
                 return _react2.default.createElement(
                     "div",
@@ -23744,6 +23813,7 @@ var WeatherSearch = exports.WeatherSearch = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (WeatherSearch.__proto__ || Object.getPrototypeOf(WeatherSearch)).call(this, props));
 
         _this.onSubmit = _this.onSubmit.bind(_this);
+        _this.onLocationClick = _this.onLocationClick.bind(_this);
         return _this;
     }
 
@@ -23756,6 +23826,11 @@ var WeatherSearch = exports.WeatherSearch = function (_React$Component) {
                 this.searchText.value = '';
                 this.props.onSubmit(searchText);
             }
+        }
+    }, {
+        key: 'onLocationClick',
+        value: function onLocationClick() {
+            this.props.onLocationClick();
         }
     }, {
         key: 'render',
@@ -23783,6 +23858,15 @@ var WeatherSearch = exports.WeatherSearch = function (_React$Component) {
                             { className: 'search-button' },
                             'Search'
                         )
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'location-button-container' },
+                    _react2.default.createElement(
+                        'button',
+                        { className: 'location-button', onClick: this.onLocationClick },
+                        'Use my location'
                     )
                 )
             );
