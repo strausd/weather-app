@@ -1,4 +1,6 @@
 const path = require('path');
+const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
     entry: './app/app.jsx',
@@ -20,5 +22,11 @@ module.exports = {
             "node_modules",
             path.resolve(__dirname, 'app/components/')
         ]
-    }
+    },
+    plugins: [
+        new webpack.DefinePlugin({'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')}),
+        new Dotenv({
+            path: './.env'
+        })
+    ]
 };
