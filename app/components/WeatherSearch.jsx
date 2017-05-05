@@ -33,18 +33,6 @@ export class WeatherSearch extends React.Component {
                 </div>
             </div>
         );
-        // return (
-        //     <div className="weather-search">
-        //         <form onSubmit={this.onSubmit}>
-        //             <div className="ui input search-input">
-        //                 <input type="text" ref={searchText => this.searchText = searchText} placeholder="Enter City" autoFocus/>
-        //             </div>
-        //             <div className="search-button-container">
-        //                 <button className="ui primary button search-button">Search</button>
-        //             </div>
-        //         </form>
-        //     </div>
-        // );
     }
 }
 
