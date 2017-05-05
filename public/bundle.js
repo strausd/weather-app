@@ -10229,7 +10229,6 @@ var WeatherApp = exports.WeatherApp = function (_React$Component) {
             });
             var locationText = encodeURIComponent(searchText);
             var geolocationUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + locationText + '&key=' + "AIzaSyCysHuQFX9Y0lmQdTjpaKWRRBEwy2afHXs";
-            console.log(geolocationUrl);
             return _axios2.default.get(geolocationUrl);
         }
     }, {
@@ -10246,7 +10245,6 @@ var WeatherApp = exports.WeatherApp = function (_React$Component) {
         value: function getWeather(location) {
             // var weatherUrl = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=imperial&appid=${process.env.OPEN_WEATHER_MAP_API_KEY}`;
             var weatherUrl = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22' + location + '%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys';
-            console.log(weatherUrl);
             return _axios2.default.get(weatherUrl);
         }
     }, {
@@ -10260,7 +10258,6 @@ var WeatherApp = exports.WeatherApp = function (_React$Component) {
 
                 if (properLocation) {
                     _this2.getWeather(properLocation).then(function (weatherRes) {
-                        console.log(weatherRes);
                         if (weatherRes.data.query.results) {
                             _this2.setState({
                                 isLoading: false,
@@ -10298,12 +10295,11 @@ var WeatherApp = exports.WeatherApp = function (_React$Component) {
                     var lat = position.coords.latitude;
                     var long = position.coords.longitude;
                     _this3.getCity(lat, long).then(function (res) {
-                        var location = res.data.results[1].formatted_address;
+                        var location = res.data.results[2].formatted_address;
                         var properLocation = encodeURIComponent(location);
 
                         if (properLocation) {
                             _this3.getWeather(properLocation).then(function (weatherRes) {
-                                console.log(weatherRes);
                                 if (weatherRes.data.query.results) {
                                     _this3.setState({
                                         isLoading: false,
